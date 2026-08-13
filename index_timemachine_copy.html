@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}"
+>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Investment Time Machine | Inaya Page
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        Inaya Page
+    </div>
+
+    <div class="nav-title">
+        INVESTMENT TIME MACHINE
+    </div>
+
+    <div class="nav-actions">
+
+        <div class="nav-tag">
+            FINANCE PROJECT
+        </div>
+
+    </div>
+
+</header>
+
+
+<main>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <a href="#" class="portfolio-link hero-portfolio-link">
+            See my portfolio
+        </a>
+        <br>
+        <div class="hero-label">
+            HISTORICAL INVESTMENT SIMULATOR
+        </div>
+
+        <h1>
+            What if you had
+            <span>invested earlier?</span>
+        </h1>
+
+        <p>
+            Explore how much your investment could be worth today
+            using historical market data.
+        </p>
+
+    </section>
+
+
+    <!-- SIMULATOR -->
+
+    <section class="simulator">
+
+        <div class="simulator-header">
+
+            <div>
+
+                <span class="section-number">
+                    01
+                </span>
+
+                <h2>
+                    Simulate an investment
+                </h2>
+
+            </div>
+
+            
+
+        </div>
+
+
+        <div class="controls">
+
+
+            <div class="input-group">
+
+                <label>
+                    STOCK
+                </label>
+
+                <select id="ticker">
+
+                    <option value="AAPL">
+                        Apple: AAPL
+                    </option>
+
+                    <option value="MSFT">
+                        Microsoft: MSFT
+                    </option>
+
+                    <option value="NVDA">
+                        NVIDIA: NVDA
+                    </option>
+
+                    <option value="TSLA">
+                        Tesla: TSLA
+                    </option>
+
+                    <option value="AMZN">
+                        Amazon: AMZN
+                    </option>
+
+                    <option value="GOOGL">
+                        Alphabet: GOOGL
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    INITIAL INVESTMENT
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span>€</span>
+
+                    <input
+                        id="amount"
+                        type="number"
+                        value="1000"
+                        min="1"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    START DATE
+                </label>
+
+                <input
+                    id="date"
+                    type="date"
+                    value="2021-01-01"
+                >
+
+            </div>
+
+
+            <div class="button-row">
+
+                <button type="button" onclick="calculate()">
+
+                    Calculate
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    onclick="restartCalculator()"
+                >
+
+                    Restart
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- LOADING -->
+
+    <div
+        id="loading"
+        class="loading"
+    >
+
+        Calculating historical performance...
+
+    </div>
+
+
+    <!-- ERROR -->
+
+    <div
+        id="error"
+        class="error"
+    ></div>
+
+
+    <!-- RESULTS -->
+
+    <section
+        id="results"
+        class="results"
+    >
+
+
+        <div class="result-top">
+
+
+            <div>
+
+                <div class="result-label">
+                    YOUR INVESTMENT
+                </div>
+
+                <h2 id="company">
+                    Apple
+                </h2>
+
+                <span
+                    id="tickerDisplay"
+                    class="ticker"
+                >
+                    AAPL
+                </span>
+
+            </div>
+
+
+            <div class="date-range">
+
+                <span id="startDate">
+                    2021-01-01
+                </span>
+
+                <span>
+                    →
+                </span>
+
+                <span id="endDate">
+                    TODAY
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="main-result">
+
+
+            <div class="value-section">
+
+                <span class="result-label">
+                    ESTIMATED VALUE TODAY
+                </span>
+
+                <div
+                    id="finalValue"
+                    class="big-number"
+                >
+                    €0
+                </div>
+
+                <div
+                    id="returnValue"
+                    class="return"
+                >
+                    +0.00%
+                </div>
+
+            </div>
+
+
+            <div class="initial-box">
+
+                <span>
+                    INITIAL INVESTMENT
+                </span>
+
+                <strong id="initialValue">
+                    €1,000
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+
+            <div class="stat">
+
+                <span>
+                    PROFIT / LOSS
+                </span>
+
+                <strong id="profit">
+                    €0
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    START PRICE
+                </span>
+
+                <strong id="startPrice">
+                    $0
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    END PRICE
+                </span>
+
+                <strong id="endPrice">
+                    $0
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    MAX DRAWDOWN
+                </span>
+
+                <strong id="drawdown">
+                    0%
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- CHART -->
+
+        <div class="chart-section">
+
+            <div class="chart-header">
+
+                <div>
+
+                    <span class="result-label">
+                        PERFORMANCE
+                    </span>
+
+                    <h3>
+                        Graphic growth
+                    </h3>
+
+                </div>
+
+                <span id="shares">
+                    0 shares
+                </span>
+
+            </div>
+
+
+            <div class="chart-container">
+
+                <canvas id="chart"></canvas>
+
+            </div>
+
+        </div>
+
+
+        <!-- DISCLAIMER -->
+
+        <div class="disclaimer">
+
+            <strong>
+                About this calculation
+            </strong>
+
+            <p>
+                This simulation uses historical market prices to estimate
+                how an investment would have performed. It does not include
+                taxes, transaction fees, dividends, currency fluctuations,
+                or inflation. Past performance does not guarantee future results.
+            </p>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- HOW IT WORKS -->
+
+    <section class="how">
+
+        <div class="section-number">
+            02
+        </div>
+
+        <h2>
+            How does it work?
+        </h2>
+
+        <div class="steps">
+
+
+            <div class="step">
+
+                <span>
+                    01
+                </span>
+
+                <h3>
+                    Choose a stock
+                </h3>
+
+                <p>
+                    Select a company from the available historical
+                    market data.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <span>
+                    02
+                </span>
+
+                <h3>
+                    Pick a date
+                </h3>
+
+                <p>
+                    Choose when you would have made your initial
+                    investment.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <span>
+                    03
+                </span>
+
+                <h3>
+                    See the result
+                </h3>
+
+                <p>
+                    The simulator calculates the value of your investment
+                    using historical prices.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<footer>
+
+    <div>
+        INAYA PAGE
+    </div>
+
+    <span>
+        Investment Time Machine · Finance & Data Project
+    </span>
+
+</footer>
+
+
+<script>
+
+function restartCalculator() {
+
+    document.getElementById("ticker").value = "AAPL";
+    document.getElementById("amount").value = "1000";
+    document.getElementById("date").value = "2021-01-01";
+
+    document.getElementById("error").style.display = "none";
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("results").style.display = "none";
+
+}
+
+
+async function calculate() {
+
+    const ticker =
+        document.getElementById("ticker").value;
+
+    const amount =
+        Number(
+            document.getElementById("amount").value
+        );
+
+    const date =
+        document.getElementById("date").value;
+
+
+    if (!amount || amount <= 0 || !date) {
+
+        showError(
+            "Please enter a valid amount and date."
+        );
+
+        return;
+
+    }
+
+
+    const loading =
+        document.getElementById("loading");
+
+    const error =
+        document.getElementById("error");
+
+    const results =
+        document.getElementById("results");
+
+
+    loading.style.display = "block";
+
+    error.style.display = "none";
+
+    results.style.display = "none";
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/calculate?ticker=${ticker}&amount=${amount}&date=${date}`
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error || "Calculation failed."
+            );
+
+        }
+
+
+        displayResults(data);
+
+    }
+
+
+    catch (err) {
+
+        showError(err.message);
+
+    }
+
+
+    finally {
+
+        loading.style.display = "none";
+
+    }
+
+}
+
+
+function displayResults(data) {
+
+    document.getElementById("company")
+        .textContent = data.company;
+
+
+    document.getElementById("tickerDisplay")
+        .textContent = data.ticker;
+
+
+    document.getElementById("initialValue")
+        .textContent =
+        formatEuro(data.initial_investment);
+
+
+    document.getElementById("finalValue")
+        .textContent =
+        formatEuro(data.final_value);
+
+
+    document.getElementById("profit")
+        .textContent =
+        formatEuro(data.profit, true);
+
+
+    document.getElementById("returnValue")
+        .textContent =
+        formatPercent(data.total_return);
+
+
+    document.getElementById("startPrice")
+        .textContent =
+        "$" + data.start_price.toFixed(2);
+
+
+    document.getElementById("endPrice")
+        .textContent =
+        "$" + data.end_price.toFixed(2);
+
+
+    document.getElementById("drawdown")
+        .textContent =
+        data.max_drawdown.toFixed(2) + "%";
+
+
+    document.getElementById("shares")
+        .textContent =
+        data.shares.toFixed(4) + " shares";
+
+
+    document.getElementById("startDate")
+        .textContent =
+        data.start_date;
+
+
+    document.getElementById("endDate")
+        .textContent =
+        data.end_date;
+
+
+    document.getElementById("results")
+        .style.display = "block";
+
+
+    drawChart(data.chart);
+
+}
+
+
+function formatEuro(value, sign = false) {
+
+    const prefix =
+        sign && value > 0
+            ? "+"
+            : "";
+
+    return (
+        prefix +
+        "€" +
+        value.toLocaleString(
+            "en-US",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        )
+    );
+
+}
+
+
+function formatPercent(value) {
+
+    return (
+        (value >= 0 ? "+" : "") +
+        value.toFixed(2) +
+        "%"
+    );
+
+}
+
+
+function showError(message) {
+
+    const error =
+        document.getElementById("error");
+
+    error.textContent = message;
+
+    error.style.display = "block";
+
+}
+
+
+function drawChart(data) {
+
+    const canvas =
+        document.getElementById("chart");
+
+    const ctx =
+        canvas.getContext("2d");
+
+
+    const width =
+        canvas.clientWidth;
+
+    const height =
+        canvas.clientHeight;
+
+
+    const ratio =
+        window.devicePixelRatio || 1;
+
+
+    canvas.width =
+        width * ratio;
+
+    canvas.height =
+        height * ratio;
+
+    ctx.scale(ratio, ratio);
+
+
+    ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    const padding = 30;
+
+
+    const values =
+        data.map(
+            point => point.value
+        );
+
+
+    const min =
+        Math.min(...values);
+
+    const max =
+        Math.max(...values);
+
+
+    const range =
+        max - min || 1;
+
+
+    // Grid
+
+    ctx.strokeStyle =
+        "#e5e7eb";
+
+    ctx.lineWidth = 1;
+
+
+    for (
+        let i = 0;
+        i < 5;
+        i++
+    ) {
+
+        const y =
+            padding +
+            (
+                (height - padding * 2)
+                / 4
+            ) * i;
+
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            padding,
+            y
+        );
+
+        ctx.lineTo(
+            width - padding,
+            y
+        );
+
+        ctx.stroke();
+
+    }
+
+
+    // Chart line
+
+    ctx.beginPath();
+
+
+    data.forEach(
+        (point, index) => {
+
+            const x =
+                padding +
+                (
+                    index /
+                    (data.length - 1)
+                ) *
+                (
+                    width -
+                    padding * 2
+                );
+
+
+            const y =
+                height -
+                padding -
+                (
+                    (point.value - min)
+                    / range
+                ) *
+                (
+                    height -
+                    padding * 2
+                );
+
+
+            if (index === 0) {
+
+                ctx.moveTo(x, y);
+
+            } else {
+
+                ctx.lineTo(x, y);
+
+            }
+
+        }
+    );
+
+
+    ctx.strokeStyle =
+        "#111111";
+
+    ctx.lineWidth = 3;
+
+    ctx.stroke();
+
+
+    // Start dot
+
+    const first =
+        data[0];
+
+    const last =
+        data[data.length - 1];
+
+
+    const lastX =
+        width - padding;
+
+    const lastY =
+        height -
+        padding -
+        (
+            (last.value - min)
+            / range
+        ) *
+        (
+            height -
+            padding * 2
+        );
+
+
+    ctx.beginPath();
+
+    ctx.arc(
+        lastX,
+        lastY,
+        5,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fillStyle =
+        "#111111";
+
+    ctx.fill();
+
+}
+
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        const results =
+            document.getElementById("results");
+
+        if (
+            results.style.display !== "none"
+        ) {
+
+            const ticker =
+                document.getElementById("ticker").value;
+
+            // redraw is handled on next calculation
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

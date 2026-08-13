@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Portfolio Analysis Report by Inaya PAGE</h1>
+
+<div class="button-row">
+    <button onclick="showSection('report-section')">Report</button>
+    <button onclick="showSection('about-section')">About</button>
+</div>
+
+ <div id="about-section" class="toggle-section" style="display: none;">
+    <h2>About This Project</h2>
+    <p>This project is a Python tool that pulls historical stock data, calculates key risk/return metrics, and generates an HTML report.</p>
+
+    <h3>What It Does</h3>
+    <p>This project analyzes five stocks (Apple, Société Générale, Novartis, LVMH, and Boeing) across a 3-year period. It downloads historical price data, computes standard portfolio analytics, visualizes the results, and compiles everything into a clean report.</p>
+
+    <h3>Key Features</h3>
+    <ul>
+        <li><strong>Annualized Return:</strong> average yearly performance for each stock</li>
+        <li><strong>Annualized Volatility:</strong> how much each stock's returns fluctuate (risk)</li>
+        <li><strong>Sharpe Ratio:</strong> risk-adjusted return</li>
+        <li><strong>Max Drawdown:</strong> worst peak-to-trough decline</li>
+        <li><strong>Correlation Matrix:</strong> how much each stock pair moves together</li>
+    </ul>
+
+    <h3>What I Learned</h3>
+    <p>Handling data gaps across different exchange calendars, applying real finance concepts in code, and building a full pipeline from raw data to a polished report.</p>
+</div>
+
+
+<div id="report-section" class="toggle-section">
+
+    <h2>Key Metrics</h2>
+    <table>
+        <tr>
+            <th>Ticker</th>
+            <th>Annual Return</th>
+            <th>Annual Volatility</th>
+            <th>Sharpe Ratio</th>
+            <th>Max Drawdown</th>
+        </tr>
+        
+        <tr>
+            <td>AAPL</td>
+            <td>20.93%</td>
+            <td>26.53%</td>
+            <td>0.71</td>
+            <td>-33.36%</td>
+        </tr>
+        
+        <tr>
+            <td>BA</td>
+            <td>5.05%</td>
+            <td>34.16%</td>
+            <td>0.09</td>
+            <td>-48.31%</td>
+        </tr>
+        
+        <tr>
+            <td>GLE.PA</td>
+            <td>46.32%</td>
+            <td>32.37%</td>
+            <td>1.37</td>
+            <td>-26.60%</td>
+        </tr>
+        
+        <tr>
+            <td>MC.PA</td>
+            <td>-11.79%</td>
+            <td>29.78%</td>
+            <td>-0.46</td>
+            <td>-48.14%</td>
+        </tr>
+        
+        <tr>
+            <td>NVS</td>
+            <td>17.92%</td>
+            <td>19.46%</td>
+            <td>0.82</td>
+            <td>-19.95%</td>
+        </tr>
+        
+    </table>
+
+    <h2>Cumulative Returns</h2>
+    <img src="cumulative_returns.png" alt="Cumulative Returns Chart">
+
+    <h2>Correlation Matrix</h2>
+    <img src="correlation_heatmap.png" alt="Correlation Heatmap">
+</div>
+
+<script>
+function showSection(id) {
+    document.getElementById('report-section').style.display = 'none';
+    document.getElementById('about-section').style.display = 'none';
+    document.getElementById(id).style.display = 'block';
+}
+</script>
+
+</body>
+</html>
